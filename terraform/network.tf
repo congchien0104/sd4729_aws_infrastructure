@@ -1,5 +1,5 @@
 # Create a VPC
-resource "aws_vpc" "development-vpc" {
+resource "aws_vpc" "devops-vpc" {
   cidr_block = "${var.vpc_cidr}"
   enable_dns_hostnames = true
 
@@ -11,7 +11,7 @@ resource "aws_vpc" "development-vpc" {
 # Create public Subnet
 resource "aws_subnet" "public-subnet-1" {
   cidr_block = "${var.public_subnet_1_cidr}"
-  vpc_id = "${aws_vpc.development-vpc.id}"
+  vpc_id = "${aws_vpc.devops-vpc.id}"
   availability_zone = "${var.region}a"
   tags = {
     Name = "${var.environment}-Public-Subnet-1"
@@ -20,7 +20,7 @@ resource "aws_subnet" "public-subnet-1" {
 
 resource "aws_subnet" "public-subnet-2" {
   cidr_block = "${var.public_subnet_2_cidr}"
-  vpc_id = "${aws_vpc.development-vpc.id}"
+  vpc_id = "${aws_vpc.devops-vpc.id}"
   availability_zone = "${var.region}b"
   tags = {
     Name = "${var.environment}-Public-Subnet-2"
@@ -29,7 +29,7 @@ resource "aws_subnet" "public-subnet-2" {
 
 # Create RouteTable
 resource "aws_route_table" "public-route-table" {
-    vpc_id = "${aws_vpc.development-vpc.id}"
+    vpc_id = "${aws_vpc.devops-vpc.id}"
     tags = {
         Name = "${var.environment}-Public-RouteTable"
     }
@@ -47,8 +47,8 @@ resource "aws_route_table_association" "public-route-2-association" {
 }
 
 # Create Internet Gateway
-resource "aws_internet_gateway" "development-igw" {
-  vpc_id = "${aws_vpc.development-vpc.id}"
+resource "aws_internet_gateway" "devops-igw" {
+  vpc_id = "${aws_vpc.devops-vpc.id}"
   tags = {
     Name = "${var.environment}-IGW"
   }
@@ -57,7 +57,7 @@ resource "aws_internet_gateway" "development-igw" {
 # Create EC2 Instance
 resource "aws_route" "public-internet-igw-route" {
   route_table_id         = "${aws_route_table.public-route-table.id}"
-  gateway_id             = "${aws_internet_gateway.development-igw.id}"
+  gateway_id             = "${aws_internet_gateway.devops-igw.id}"
   destination_cidr_block = "0.0.0.0/0"
 }
 

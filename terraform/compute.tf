@@ -1,8 +1,8 @@
-resource "aws_instance" "jenkins-cicd" {
+resource "aws_instance" "jenkins-devops" {
   ami = "ami-053b0d53c279acc90"
   instance_type = "t2.micro"
   key_name = "jenkinskey"
-  vpc_security_group_ids = ["${aws_security_group.sg_allow_ssh_jenkins.id}"]
+  vpc_security_group_ids = ["${aws_security_group.sg-devops.id}"]
   subnet_id = "${aws_subnet.public-subnet-1.id}"
   user_data = "${file("install_jenkins.sh")}"
 
@@ -12,7 +12,7 @@ resource "aws_instance" "jenkins-cicd" {
   }
 }
 
-resource "aws_security_group" "sg_allow_ssh_jenkins" {
+resource "aws_security_group" "sg-devops" {
   name = "allow_jenkins"
   description = "Allow ssh and jenkins inbound traffic"
   vpc_id = "${aws_vpc.development-vpc.id}"
@@ -40,5 +40,5 @@ resource "aws_security_group" "sg_allow_ssh_jenkins" {
 }
 
 output "jenkisn_ip_address" {
-  value = "${aws_instance.jenkins-cicd.public_dns}"
+  value = "${aws_instance.jenkins-devops.public_dns}"
 }
