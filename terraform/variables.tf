@@ -21,5 +21,5 @@ variable "instance_ami" {
 
 }
 variable "keyname" {
-  
+  default = "jenkinskey"
 }

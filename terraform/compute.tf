@@ -4,11 +4,11 @@ resource "aws_instance" "jenkins-devops" {
   key_name = "jenkinskey"
   vpc_security_group_ids = ["${aws_security_group.sg-devops.id}"]
   subnet_id = "${aws_subnet.public-subnet-1.id}"
-  user_data = "${file("install_jenkins.sh")}"
+  #user_data = "${file("install_jenkins.sh")}"
 
   associate_public_ip_address = true
   tags = {
-    Name = "Jenkins-Official"
+    Name = "Jenkins-DevOps"
   }
 }
 
