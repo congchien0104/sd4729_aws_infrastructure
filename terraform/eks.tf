@@ -58,10 +58,10 @@ resource "aws_eks_cluster" "eks_cluster" {
   name     = "DevOpsEKScluster"
   role_arn =  "${aws_iam_role.iam-role-eks-cluster.arn}"
   version  = "1.27"
- # Configure EKS with vpc and network settings 
+  # Configure EKS with vpc and network settings 
   vpc_config {            
-   security_group_ids = ["${aws_security_group.sg_devops.id}"]
-# Configure subnets below
+   security_group_ids = ["${aws_security_group.devops-sg.id}"]
+   # Configure subnets below
    subnet_ids         = ["${aws_subnet.public-subnet-1.id}","${aws_subnet.public-subnet-2.id}"] 
     }
   depends_on = [

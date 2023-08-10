@@ -1,21 +1,21 @@
-resource "aws_instance" "jenkins-devops" {
+resource "aws_instance" "devops-ec2" {
   ami = "ami-053b0d53c279acc90"
   instance_type = "t2.micro"
   key_name = "jenkinskey"
-  vpc_security_group_ids = ["${aws_security_group.sg-devops.id}"]
+  vpc_security_group_ids = ["${aws_security_group.devops-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet-1.id}"
   #user_data = "${file("install_jenkins.sh")}"
 
   associate_public_ip_address = true
   tags = {
-    Name = "Jenkins-DevOps"
+    Name = "DevOps-EC2"
   }
 }
 
-resource "aws_security_group" "sg-devops" {
+resource "aws_security_group" "devops-sg" {
   name = "allow_jenkins"
   description = "Allow ssh and jenkins inbound traffic"
-  vpc_id = "${aws_vpc.development-vpc.id}"
+  vpc_id = "${aws_vpc.devops-vpc.id}"
 
   ingress {
     from_port   = 22
@@ -39,6 +39,6 @@ resource "aws_security_group" "sg-devops" {
   }
 }
 
-output "jenkisn_ip_address" {
-  value = "${aws_instance.jenkins-devops.public_dns}"
+output "jenkins_ip_address" {
+  value = "${aws_instance.devops-ec2.public_dns}"
 }
