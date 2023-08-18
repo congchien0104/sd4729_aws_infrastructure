@@ -1,7 +1,7 @@
 resource "aws_instance" "devops-ec2" {
   ami = "ami-053b0d53c279acc90"
-  instance_type = "t3.micro"
-  key_name = "jenkinskey"
+  instance_type = "t3.medium"
+  key_name = "devops-key"
   vpc_security_group_ids = ["${aws_security_group.devops-sg.id}"]
   subnet_id = "${aws_subnet.public-subnet-1.id}"
   #user_data = "${file("install_jenkins.sh")}"
