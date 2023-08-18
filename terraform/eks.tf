@@ -54,8 +54,8 @@ resource "aws_iam_role_policy_attachment" "eks-cluster-AmazonEKSServicePolicy" {
  
 # Creating the AWS EKS cluster
  
-resource "aws_eks_cluster" "eks-cluster" {
-  name     = "DevOpsEKSCluster"
+resource "aws_eks_cluster" "eks_cluster" {
+  name     = "DevOpsEKScluster"
   role_arn =  "${aws_iam_role.iam-role-eks-cluster.arn}"
   version  = "1.27"
   # Configure EKS with vpc and network settings 
@@ -72,7 +72,7 @@ resource "aws_eks_cluster" "eks-cluster" {
  
 # Creating IAM role for AWS EKS nodes with assume policy so that it can assume 
  
-resource "aws_iam_role" "eks-nodes" {
+resource "aws_iam_role" "eks_nodes" {
   name = "eks-node-group"
   assume_role_policy = <<POLICY
 {
@@ -109,7 +109,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
  
 resource "aws_eks_node_group" "node" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
-  node_group_name = "devops-node"
+  node_group_name = "node_devops"
   node_role_arn   = aws_iam_role.eks_nodes.arn
   subnet_ids      = [ aws_subnet.public-subnet-1.id, aws_subnet.public-subnet-2.id ]
   scaling_config {
